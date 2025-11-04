@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: toy_board
+
+logging:
+  level:
+    org.springframework.security: DEBUG
