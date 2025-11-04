@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,13 +25,17 @@ public class BoardServiceTest {
     @Test
     @DisplayName("보드를 생성할 수 있다.")
     public void boardCreateTest(){
+//        given
         CreateBoardDto dto = new CreateBoardDto();
         dto.setBoardBody("테스트 본문");
         dto.setBoardTitle("테스트 타이틀");
         String userId = "seungwon0808";
         String userNickName = "숭이";
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "test1.png", "image/png", new byte[10]);
 
-        Long res = boardService.createBoard(dto, userId, userNickName);
+//        when
+        Long res = boardService.createBoard(dto, userId, userNickName, multipartFile);
+//        then
         System.out.println(res);
     }
 
@@ -54,6 +60,17 @@ public class BoardServiceTest {
         EditBoardDto dto = new EditBoardDto();
         dto.setBoardBody(boardBody);
         Long res = boardService.editBoard(dto, userId, boardId);
+        assertThat(res).isEqualTo(boardId);
+    }
+
+    @Test
+    @DisplayName("보드를 삭제할 수 있다.")
+    public void deleteBoardTest(){
+        Long boardId = 1L;
+        String userId = "seungwon0808";
+        Long res = boardService.deleteBoard(boardId, userId);
+
+        System.out.println(res);
         assertThat(res).isEqualTo(boardId);
     }
 }

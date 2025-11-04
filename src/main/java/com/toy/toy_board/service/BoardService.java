@@ -58,4 +58,15 @@ public class BoardService {
         }
         return board.getId();
     }
+
+    @Transactional
+    public Long deleteBoard(Long boardId, String userId){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new NotFound("존재하지 않는 게시글입니다."));
+        if(!board.getBoardWriterId().equals(userId)){
+            throw new BadParameter("작성자만 삭제할 수 있습니다.");
+        }
+        boardRepository.delete(board);
+        return board.getId();
+    }
 }

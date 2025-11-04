@@ -1,4 +1,4 @@
-package com.toy.toy_board.api;
+package com.toy.toy_board.api.open.boardController;
 
 
 import com.toy.toy_board.common.context.GatewayRequestHeaderUtils;
@@ -35,6 +35,12 @@ public class BoardController {
             @RequestPart(value = "img", required = false)MultipartFile multipartFile){
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
         return ApiResponseDto.createOk(boardService.editBoard(editBoardDto, userId, boardId));
+    }
+
+    @DeleteMapping(value = "boards/{boardId}")
+    public ApiResponseDto<Long> deleteBoards(@PathVariable Long boardId){
+        String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
+        return ApiResponseDto.createOk(boardService.deleteBoard(boardId, userId));
     }
 
 }

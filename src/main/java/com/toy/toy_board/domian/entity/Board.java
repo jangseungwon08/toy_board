@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
 //2. 지연 로딩을 사용할 때 JPA는 실제 엔티티 객체 대신 껍데기 프록시 객체를 생성한다. 이 프록시 객체는 원본 엔티티를 상속 받아서 만들어짐
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Board extends BaseTimeEntity {
     @Id
     @Column(name = "id")
