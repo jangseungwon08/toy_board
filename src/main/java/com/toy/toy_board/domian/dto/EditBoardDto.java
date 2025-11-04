@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EditBoardDto {
-    private String BoardTitle;
-    private String BoardBody;
+    private String boardTitle;
+    private String boardBody;
 }

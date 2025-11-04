@@ -1,4 +1,4 @@
-package com.toy.toy_board.api;
+package com.toy.toy_board.api.open.boardController;
 
 import com.toy.toy_board.common.context.GatewayRequestHeaderUtils;
 import com.toy.toy_board.common.dto.ApiResponseDto;
