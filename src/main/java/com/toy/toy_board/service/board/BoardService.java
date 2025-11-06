@@ -25,18 +25,17 @@ public class BoardService {
     @Transactional
     public Long createBoard(CreateBoardDto createBoardDto, String userId, String nickName, MultipartFile multipartFile) {
 //         mutipartFile.isEmpty()는 게시글 내용과 함께 이미지를 업로드 해야 게시글을 작성할 수 있게 하려면 되는 메서드이다.
+        String imgUrl = null;
         if (multipartFile != null && !multipartFile.isEmpty()) {
-            String imgUrl = "";
             try {
                 imgUrl = s3Service.uploadFile(multipartFile, "");
-                createBoardDto.setImgUrl(imgUrl);
             } catch (IOException e) {
                 log.error("S3 파일 업로드 중 심각한 에러 발생", e); // 에러 메시지도 구체적으로
                 throw new RuntimeException("파일 업로드에 실패했습니다.", e);
             }
         }
         Board board = createBoardDto
-                .toEntity(userId, nickName);
+                .toEntity(userId, nickName,imgUrl);
         try {
             boardRepository.save(board);
         } catch (Exception e) {

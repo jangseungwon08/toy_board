@@ -84,5 +84,9 @@ public class CommentService {
         return reply.getId();
     }
 
+    public Long updateComment(Long commentId, String userId, String userNickName){
+        return 0L;
+    }
+
 
 }

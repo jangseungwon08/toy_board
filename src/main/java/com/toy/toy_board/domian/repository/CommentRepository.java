@@ -35,4 +35,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "UPDATE comment SET sequence = sequence +1 WHERE group_id = :group_id AND sequence >= :insert_point", nativeQuery = true)
     void increaseSequence(@Param(value = "group_id") Long groupId, @Param(value = "insert_point") Long insertPoint);
 
+
 }
