@@ -21,8 +21,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query(value = "SELECT * FROM comment WHERE board_id = :board_id ORDER BY group_id, sequence", nativeQuery = true)
     List<Comment> findAllComment(@Param(value = "board_id") Long boardId);
+
 //    부모와 같은 깊이 sequence 중 부모보다는 큰 바로 다음 sequence 가져온다.
-    @Query(value = "SELECT min(sequence) FROM comment C WHERE c.group_id = :group_id and c.depth = :parent_depth and c.sequence > :parent_sequence", nativeQuery = true)
+    @Query(value = "SELECT min(sequence) FROM comment c WHERE c.group_id = :group_id and c.depth = :parent_depth and c.sequence > :parent_sequence", nativeQuery = true)
     Long findNextSiblingSequence(@Param(value = "group_id")Long group_id, @Param(value = "parent_depth") Long parent_depth, @Param(value = "parent_sequence") Long parent_sequence);
 
 //    그룹 내 최대 sequence +1 찾기 =>
