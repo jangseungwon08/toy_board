@@ -13,13 +13,12 @@ public class CreateReplyDto {
     private Long commentId;
     private String replyBody;
 
-    public Comment toEntity(String replyBody, String userId, String userNickName, Board board,Comment comment){
+    public Comment toEntity(String replyBody, String userId, String userNickName, Board board){
         return Comment.builder()
                 .commentWriterId(userId)
                 .commentWriterNickName(userNickName)
                 .commentBody(replyBody)
                 .board_comment(board)
-                .parent(comment)
                 .build();
     }
 }
