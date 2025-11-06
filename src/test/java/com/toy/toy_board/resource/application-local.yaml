@@ -16,7 +16,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: create # 개발 환경용
+      ddl-auto: update # 개발 환경용
     generate-ddl: true
     show-sql: true
     open-in-view: false
@@ -24,9 +24,9 @@ spring:
 cloud:
   aws:
     credentials:
-      access-key: ${ACCESS_KEY}
-      secret-key: ${SECRET_KEY}
+      access-key: fdasfsdafasfsafdsfdas
+      secret-key: fafsafdsfsafdsfdsa
     region:
       static: ap-northeast-2
     s3:
-      bucket: ${BUCKET}
+      bucket: fdsafsdafdsafdasfd

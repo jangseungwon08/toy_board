@@ -16,6 +16,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+src/test/java/com/toy/toy_board/resource/*
 .env
 ### IntelliJ IDEA ###
 .idea
