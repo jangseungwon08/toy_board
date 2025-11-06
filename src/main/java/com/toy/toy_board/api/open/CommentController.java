@@ -9,10 +9,7 @@ import com.toy.toy_board.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,6 +24,13 @@ public class CommentController {
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
         String userNickName = GatewayRequestHeaderUtils.getUserNickNameOrThrowException();
         return ApiResponseDto.createOk(commentService.createComment(createCommentDto, userId, userNickName));
+    }
+
+    @PatchMapping(value = "/{commentId}")
+    public ApiResponseDto<Long> updateComments(@PathVariable Long commentId){
+        String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
+        String userNickName = GatewayRequestHeaderUtils.getUserNickNameOrThrowException();
+        return ApiResponseDto.createOk(commentService.updateComment(commentId, userId, userNickName));
     }
 
     @PostMapping(value = "comments/reply")

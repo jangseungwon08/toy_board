@@ -2,6 +2,7 @@ package com.toy.toy_board.domian.dto.comment;
 
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.entity.Comment;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@Builder
 public class CreateCommentDto {
     private Long boardId;
     private String commentBody;

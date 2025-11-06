@@ -3,11 +3,12 @@ package com.toy.toy_board.domian.dto.comment;
 
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.entity.Comment;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
+@Builder
 public class CreateReplyDto {
     private Long boardId;
     private Long commentId;

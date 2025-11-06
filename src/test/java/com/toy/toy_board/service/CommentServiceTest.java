@@ -42,9 +42,10 @@ public class CommentServiceTest {
 //        보드와 직접 연결된 comment
         String userId= "seungwon0808";
         String userNickName = "숭이";
-        CreateCommentDto dto = new CreateCommentDto();
-        dto.setCommentBody("ㄹㅇㅋㅋ");
-        dto.setBoardId(board.getId());
+        CreateCommentDto dto = CreateCommentDto.builder()
+                .commentBody("ㄹㅇㅋㅋ")
+                .boardId(board.getId())
+                .build();
 
 //        when
         Long res = commentService.createComment(dto, userId, userNickName);
@@ -63,10 +64,11 @@ public class CommentServiceTest {
         Board board = boardRepository.findById(1L).orElseThrow(() -> new NotFound("존재하지 않는 게시글입니다."));
         String userId= "seungwon0808";
         String userNickName = "숭이";
-        CreateReplyDto dto = new CreateReplyDto();
-        dto.setCommentId(1L);
-        dto.setBoardId(board.getId());
-        dto.setReplyBody("진짜 ㄹㅇㅋㅋ");
+        CreateReplyDto dto = CreateReplyDto.builder()
+                .commentId(1L)
+                .boardId(board.getId())
+                .replyBody("진짜  ㄹㅇㅋㅋ")
+                .build();
 
 //        when
         Long res = commentService.createReplyComment(dto, userId, userNickName);
@@ -90,9 +92,10 @@ public class CommentServiceTest {
         Board board = boardRepository.findById(1L).orElseThrow(() -> new NotFound("존재하지 않는 게시글입니다."));
         String userId= "seungwon0808";
         String userNickName = "숭이";
-        CreateCommentDto dto = new CreateCommentDto();
-        dto.setCommentBody("걍 ㄹㅇㅋㅋ만 외쳐라 ㅋㅋ");
-        dto.setBoardId(board.getId());
+        CreateCommentDto dto = CreateCommentDto.builder()
+                .commentBody("걍 ㄹㅇㅋㅋ만 외쳐라 ㅋㅋ")
+                .boardId(board.getId())
+                .build();
         //        when
         Long res = commentService.createComment(dto, userId, userNickName);
 //        then

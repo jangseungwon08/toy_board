@@ -26,9 +26,10 @@ public class BoardServiceTest {
     @DisplayName("보드를 생성할 수 있다.")
     public void boardCreateTest(){
 //        given
-        CreateBoardDto dto = new CreateBoardDto();
-        dto.setBoardBody("테스트 본문");
-        dto.setBoardTitle("테스트 타이틀");
+        CreateBoardDto dto = CreateBoardDto.builder()
+                .boardBody("테스트 본문")
+                .boardTitle("테스트 타이틀")
+                .build();
         String userId = "seungwon0808";
         String userNickName = "숭이";
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test1.png", "image/png", new byte[10]);
@@ -45,8 +46,9 @@ public class BoardServiceTest {
         String boardTitle = "테스트 제목 수정입니다.";
         Long boardId = 3L;
         String userId = "seungwon0808";
-        EditBoardDto dto = new EditBoardDto();
-        dto.setBoardTitle(boardTitle);
+        EditBoardDto dto = EditBoardDto.builder()
+                .boardTitle(boardTitle)
+                .build();
         Long res = boardService.editBoard(dto, userId, boardId);
         assertThat(res).isEqualTo(boardId);
     }
@@ -57,8 +59,9 @@ public class BoardServiceTest {
         String boardBody = "테스트 본문 수정입니다.";
         Long boardId = 3L;
         String userId = "seungwon0808";
-        EditBoardDto dto = new EditBoardDto();
-        dto.setBoardBody(boardBody);
+        EditBoardDto dto = EditBoardDto.builder()
+                .boardBody(boardBody)
+                .build();
         Long res = boardService.editBoard(dto, userId, boardId);
         assertThat(res).isEqualTo(boardId);
     }
