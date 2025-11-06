@@ -1,4 +1,4 @@
-package com.toy.toy_board.domian.dto;
+package com.toy.toy_board.domian.dto.board;
 
 import lombok.Getter;
 import lombok.Setter;

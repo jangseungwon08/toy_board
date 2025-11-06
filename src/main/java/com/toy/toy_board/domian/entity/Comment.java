@@ -1,10 +1,9 @@
 package com.toy.toy_board.domian.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLDelete;
 
 import java.util.List;
 
@@ -12,8 +11,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "comment")
 @Entity
+@SQLDelete(sql = "UPDATE comment SET is_deleted = true WHERE id = ?")
 public class Comment extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,20 +27,42 @@ public class Comment extends BaseTimeEntity{
     @Column(name = "comment_writer_nick_name",nullable = false)
     private String commentWriterNickName;
 
+    @Column(name = "comment_body", nullable = false)
+    private String commentBody;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
+
     @ManyToOne(targetEntity = Board.class, fetch = FetchType.LAZY)
 //    referencedColumnName => 대상 테이블의 칼럼 명
     @JoinColumn(name = "board_id", referencedColumnName = "id", nullable = false)
     private Board board_comment;
 
+//    대댓글 계층 구조를 위한 속성
+//    대댓글을 그룹화 하기 위해 사용
+//    ex) 댓글 1-1 , 댓글 1-2, 댓글 1-1-1
+    @Column(name = "group_id")
+    private Long groupId;
+
+    @Column(name = "sequence")
+    private Long sequence;
+
+    @Column(name = "depth")
+    private Long depth;
+
+    @Column(name = "child_count")
+    private Long childCount;
 
 //    자식 클래스
     @ManyToOne(targetEntity = Comment.class, fetch = FetchType.LAZY)
-//    모든 댓글이 부모를 가져야되는건 아니니까 nullable true로
+//    첫번째 댓글은 부모를 가져야되는건 아니니까 nullable true로
     @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = true)
     private Comment parent;
 
-// 부모 클래스
+/*
+ 부모 클래스
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> children;
+*/
 
 }

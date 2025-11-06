@@ -1,10 +1,10 @@
-package com.toy.toy_board.service;
+package com.toy.toy_board.service.board;
 
 import com.toy.toy_board.common.aws.S3Service;
 import com.toy.toy_board.common.exception.BadParameter;
 import com.toy.toy_board.common.exception.NotFound;
-import com.toy.toy_board.domian.dto.CreateBoardDto;
-import com.toy.toy_board.domian.dto.EditBoardDto;
+import com.toy.toy_board.domian.dto.board.CreateBoardDto;
+import com.toy.toy_board.domian.dto.board.EditBoardDto;
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +23,23 @@ public class BoardService {
     private final S3Service s3Service;
 
     @Transactional
-    public Long createBoard(CreateBoardDto createBoardDto, String userId, String nickName, MultipartFile multipartFile){
-        String imgUrl = "";
-        try{
-            imgUrl = s3Service.uploadFile(multipartFile, "");
-        } catch(IOException e){
-            log.error("S3 파일 업로드 중 심각한 에러 발생", e); // 에러 메시지도 구체적으로
-            throw new RuntimeException("파일 업로드에 실패했습니다.", e);
+    public Long createBoard(CreateBoardDto createBoardDto, String userId, String nickName, MultipartFile multipartFile) {
+//         mutipartFile.isEmpty()는 게시글 내용과 함께 이미지를 업로드 해야 게시글을 작성할 수 있게 하려면 되는 메서드이다.
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String imgUrl = "";
+            try {
+                imgUrl = s3Service.uploadFile(multipartFile, "");
+                createBoardDto.setImgUrl(imgUrl);
+            } catch (IOException e) {
+                log.error("S3 파일 업로드 중 심각한 에러 발생", e); // 에러 메시지도 구체적으로
+                throw new RuntimeException("파일 업로드에 실패했습니다.", e);
+            }
         }
         Board board = createBoardDto
-                .toEntity(createBoardDto.getBoardTitle(), createBoardDto.getBoardBody(), userId, nickName, imgUrl);
-        try{
+                .toEntity(userId, nickName);
+        try {
             boardRepository.save(board);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             log.error("게시글 저장에 실패했습니다. userId: {}, nickName: {}", userId, nickName, e);
             throw new RuntimeException("게시글 저장에 실패했습니다.");
         }
@@ -44,26 +47,26 @@ public class BoardService {
     }
 
     @Transactional
-    public Long editBoard(EditBoardDto editBoardDto, String userId, Long boardId){
+    public Long editBoard(EditBoardDto editBoardDto, String userId, Long boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFound("존재하지 않는 게시글입니다."));
-        if (!board.getBoardWriterId().equals(userId)){
+        if (!board.getBoardWriterId().equals(userId)) {
             throw new BadParameter("작성자만 수정할 수 있습니다.");
         }
-        if(editBoardDto.getBoardTitle() != null){
+        if (editBoardDto.getBoardTitle() != null) {
             board.setBoardTitle(editBoardDto.getBoardTitle());
         }
-        if(editBoardDto.getBoardBody() != null){
+        if (editBoardDto.getBoardBody() != null) {
             board.setBoardBody(editBoardDto.getBoardBody());
         }
         return board.getId();
     }
 
     @Transactional
-    public Long deleteBoard(Long boardId, String userId){
+    public Long deleteBoard(Long boardId, String userId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFound("존재하지 않는 게시글입니다."));
-        if(!board.getBoardWriterId().equals(userId)){
+        if (!board.getBoardWriterId().equals(userId)) {
             throw new BadParameter("작성자만 삭제할 수 있습니다.");
         }
         boardRepository.delete(board);

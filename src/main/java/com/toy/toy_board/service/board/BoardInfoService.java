@@ -1,8 +1,9 @@
-package com.toy.toy_board.service;
+package com.toy.toy_board.service.board;
 
 import com.toy.toy_board.common.exception.BadParameter;
 import com.toy.toy_board.common.exception.NotFound;
-import com.toy.toy_board.domian.dto.BoardDetailDto;
+import com.toy.toy_board.domian.dto.board.BoardDetailDto;
+import com.toy.toy_board.domian.dto.board.BoardOverViewDto;
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.repository.BoardRepository;
 import com.toy.toy_board.domian.repository.LikeRepository;
@@ -11,6 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +65,9 @@ public class BoardInfoService {
         }
         if (oldCookie != null) {
             if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
+                Long viewCount = board.getViewCount();
+                viewCount++;
+                board.setViewCount(viewCount);
                 oldCookie.setValue(oldCookie.getValue() + "_[" + boardId + "]");
                 oldCookie.setPath("/");
                 response.addCookie(oldCookie);
@@ -72,5 +80,16 @@ public class BoardInfoService {
             newCookie.setPath("/");
             response.addCookie(newCookie);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BoardOverViewDto> boardOverView(int page, int size){
+        Pageable pageable = PageRequest.of(page-1,size, Sort.by(Sort.Direction.DESC, "created_at"));
+        Page<Board> boards = boardRepository.findAllOverViewBoard(pageable);
+
+        Page<BoardOverViewDto> pageOverView = boards.map(
+                BoardOverViewDto::fromEntity
+        );
+                return pageOverView;
     }
 }

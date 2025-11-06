@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLDelete;
 
 @Slf4j
 @NoArgsConstructor
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Table(name = "likes")
 @Entity
+@SQLDelete(sql = "UPDATE likes SET is_deleted = true WHERE id = ?")
 public class Likes {
 
     @Id
@@ -25,5 +27,8 @@ public class Likes {
 
     @Column(name = "like_writer_id", nullable = false)
     private String likeWriterId;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
 
 }

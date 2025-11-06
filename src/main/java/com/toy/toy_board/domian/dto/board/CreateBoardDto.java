@@ -1,4 +1,4 @@
-package com.toy.toy_board.domian.dto;
+package com.toy.toy_board.domian.dto.board;
 
 import com.toy.toy_board.domian.entity.Board;
 import lombok.Getter;
@@ -12,13 +12,13 @@ public class CreateBoardDto {
     private Long viewCount;
     private String imgUrl;
 
-    public Board toEntity(String boardTitle, String boardBody, String boardWriterId, String boardWriterNickName, String imgUrl){
+    public Board toEntity(String boardWriterId, String boardWriterNickName){
         return Board.builder()
-                .boardTitle(boardTitle)
-                .boardBody(boardBody)
+                .boardTitle(this.boardTitle)
+                .boardBody(this.boardBody)
                 .boardWriterId(boardWriterId)
                 .boardWriterNickName(boardWriterNickName)
-                .imgUrl(imgUrl)
+                .imgUrl(this.imgUrl)
                 .build();
     }
 }
