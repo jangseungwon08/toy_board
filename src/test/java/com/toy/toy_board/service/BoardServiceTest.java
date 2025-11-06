@@ -1,13 +1,13 @@
 package com.toy.toy_board.service;
 
-import com.toy.toy_board.domian.dto.CreateBoardDto;
-import com.toy.toy_board.domian.dto.EditBoardDto;
+import com.toy.toy_board.domian.dto.board.CreateBoardDto;
+import com.toy.toy_board.domian.dto.board.EditBoardDto;
 import com.toy.toy_board.domian.repository.BoardRepository;
+import com.toy.toy_board.service.board.BoardService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 

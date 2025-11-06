@@ -20,7 +20,6 @@ import java.util.List;
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
-@Where(clause = "is_deleted = false")
 public class Board extends BaseTimeEntity {
     @Id
     @Column(name = "id")

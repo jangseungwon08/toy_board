@@ -1,9 +1,10 @@
 package com.toy.toy_board.service;
 
 import com.toy.toy_board.common.exception.NotFound;
-import com.toy.toy_board.domian.dto.BoardDetailDto;
+import com.toy.toy_board.domian.dto.board.BoardDetailDto;
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.repository.BoardRepository;
+import com.toy.toy_board.service.board.BoardInfoService;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.Optional;
 
 @ActiveProfiles("local")
 @SpringBootTest
@@ -22,7 +22,8 @@ public class BoardInfoServiceTest {
     @Autowired
     private BoardRepository boardRepository;
 
-    @Autowired BoardInfoService boardInfoService;
+    @Autowired
+    BoardInfoService boardInfoService;
 
     @Test
     @DisplayName("회원이 아닌 유저도 보드상세 정보를 볼 수 있다.")
