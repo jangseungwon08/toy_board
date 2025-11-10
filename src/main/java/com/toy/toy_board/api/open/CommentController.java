@@ -5,6 +5,7 @@ import com.toy.toy_board.common.context.GatewayRequestHeaderUtils;
 import com.toy.toy_board.common.dto.ApiResponseDto;
 import com.toy.toy_board.domian.dto.comment.CreateCommentDto;
 import com.toy.toy_board.domian.dto.comment.CreateReplyDto;
+import com.toy.toy_board.domian.dto.comment.UpdateCommentDto;
 import com.toy.toy_board.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,15 @@ public class CommentController {
     }
 
     @PatchMapping(value = "/{commentId}")
-    public ApiResponseDto<Long> updateComments(@PathVariable Long commentId){
+    public ApiResponseDto<Long> updateComments(@PathVariable Long commentId, @RequestBody UpdateCommentDto updateCommentDto){
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
-        String userNickName = GatewayRequestHeaderUtils.getUserNickNameOrThrowException();
-        return ApiResponseDto.createOk(commentService.updateComment(commentId, userId, userNickName));
+        return ApiResponseDto.createOk(commentService.updateComment(updateCommentDto,commentId, userId));
+    }
+
+    @DeleteMapping(value = "{commentId}")
+    public ApiResponseDto<String> deleteComments(@PathVariable Long commentId){
+        String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
+        return ApiResponseDto.defaultOk();
     }
 
     @PostMapping(value = "comments/reply")

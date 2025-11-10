@@ -1,5 +1,7 @@
 package com.toy.toy_board.service;
 
+import com.toy.toy_board.common.aws.S3Builder;
+import com.toy.toy_board.common.aws.S3Service;
 import com.toy.toy_board.domian.dto.board.CreateBoardDto;
 import com.toy.toy_board.domian.dto.board.EditBoardDto;
 import com.toy.toy_board.domian.repository.BoardRepository;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,6 +24,11 @@ public class BoardServiceTest {
     private BoardRepository boardRepository;
     @Autowired
     private BoardService boardService;
+    @MockitoBean
+    S3Service s3Service;
+    @MockitoBean
+    S3Builder s3Builder;
+
 
     @Test
     @DisplayName("보드를 생성할 수 있다.")

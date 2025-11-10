@@ -4,10 +4,6 @@ import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.entity.Comment;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -15,12 +11,16 @@ public class CreateCommentDto {
     private Long boardId;
     private String commentBody;
 
-    public Comment toEntity(String commentBody, String commentWriterId, String commentWriterNickName, Board board){
+    public Comment toEntity(String commentBody, String commentWriterId, String commentWriterNickName, Long groupId, Board board){
         return Comment.builder()
                 .commentWriterId(commentWriterId)
                 .commentWriterNickName(commentWriterNickName)
                 .commentBody(commentBody)
                 .board_comment(board)
+                .depth(0L)
+                .groupId(groupId)
+                .sequence(1L)
+                .childCount(0L)
                 .build();
     }
 }

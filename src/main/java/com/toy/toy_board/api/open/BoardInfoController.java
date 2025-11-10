@@ -25,13 +25,13 @@ public class BoardInfoController {
     @GetMapping
     public ApiResponseDto<Page<BoardOverViewDto>> boardOverView(@RequestParam(defaultValue = "1") int page,
                                                             @RequestParam(defaultValue = "10") int size){
-        return ApiResponseDto.createOk(boardInfoService.boardOverView(page, size));
+        return ApiResponseDto.readOk(boardInfoService.boardOverView(page, size));
     }
 
     @GetMapping(value = "/{boardId}")
     public ApiResponseDto<BoardDetailDto> boardDetail(@PathVariable Long boardId, HttpServletRequest request, HttpServletResponse response){
         String userId = GatewayRequestHeaderUtils.getUserId();
         String userNickName = GatewayRequestHeaderUtils.getUserNickName();
-        return ApiResponseDto.createOk(boardInfoService.getBoardDetail(boardId, userId, userNickName, request, response));
+        return ApiResponseDto.readOk(boardInfoService.getBoardDetail(boardId, userId, userNickName, request, response));
     }
 }
