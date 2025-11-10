@@ -2,6 +2,7 @@ package com.toy.toy_board.domian.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,6 @@ import org.hibernate.annotations.SQLDelete;
 @Getter
 @Table(name = "likes")
 @Entity
-@SQLDelete(sql = "UPDATE likes SET is_deleted = true WHERE id = ?")
 public class Likes {
 
     @Id
@@ -25,10 +25,12 @@ public class Likes {
     @JoinColumn(name = "board_id", referencedColumnName = "id", nullable = false)
     private Board board_like;
 
-    @Column(name = "like_writer_id", nullable = false)
-    private String likeWriterId;
+    @Column(name = "likes_writer_id", nullable = false)
+    private String likesWriterId;
 
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
-
+    @Builder
+    Likes (Board board, String likesWriterId){
+        this.board_like = board;
+        this.likesWriterId = likesWriterId;
+    }
 }

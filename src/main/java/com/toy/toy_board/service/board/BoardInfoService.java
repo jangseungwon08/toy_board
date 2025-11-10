@@ -6,7 +6,7 @@ import com.toy.toy_board.domian.dto.board.BoardDetailDto;
 import com.toy.toy_board.domian.dto.board.BoardOverViewDto;
 import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.repository.BoardRepository;
-import com.toy.toy_board.domian.repository.LikeRepository;
+import com.toy.toy_board.domian.repository.LikesRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardInfoService {
     private final BoardRepository boardRepository;
-    private final LikeRepository likeRepository;
+    private final LikesRepository likesRepository;
 
     @Transactional
     public BoardDetailDto getBoardDetail(Long boardId, String userId, String userNickName, HttpServletRequest request, HttpServletResponse response){
@@ -34,7 +34,7 @@ public class BoardInfoService {
             throw new BadParameter("이미 삭제된 게시글입니다.");
         }
         addViewCount(request, response, boardId);
-        int likeCount = likeRepository.likeCount(board.getId());
+        Long likesCount = likesRepository.likesCount(board.getId());
 
         return BoardDetailDto.builder()
                 .boardTitle(board.getBoardTitle())
@@ -45,7 +45,7 @@ public class BoardInfoService {
                 .boardWriterNickName(board.getBoardWriterNickName())
                 .isOwned(board.getBoardWriterId().equals(userId))
                 .viewCount(board.getViewCount())
-                .likeCount(likeCount)
+                .likesCount(likesCount)
                 .imgUrl(board.getImgUrl())
                 .build();
     }

@@ -5,7 +5,6 @@ import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.entity.Comment;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Builder

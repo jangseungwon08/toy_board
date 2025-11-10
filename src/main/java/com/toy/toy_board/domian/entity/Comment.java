@@ -9,8 +9,7 @@ import java.util.List;
 
 @Slf4j
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "comment")
@@ -22,15 +21,18 @@ public class Comment extends BaseTimeEntity{
     private Long id;
 
     @Column(name = "comment_writer_id", nullable = false)
+    @Setter
     private String commentWriterId;
 
     @Column(name = "comment_writer_nick_name",nullable = false)
     private String commentWriterNickName;
 
     @Column(name = "comment_body", nullable = false)
+    @Setter
     private String commentBody;
 
     @Column(name = "is_deleted", nullable = false)
+    @Setter
     private boolean isDeleted = false;
 
     @ManyToOne(targetEntity = Board.class, fetch = FetchType.LAZY)
@@ -42,21 +44,26 @@ public class Comment extends BaseTimeEntity{
 //    대댓글을 그룹화 하기 위해 사용
 //    ex) 댓글 1-1 , 댓글 1-2, 댓글 1-1-1
     @Column(name = "group_id")
+    @Setter
     private Long groupId;
 
     @Column(name = "sequence")
+    @Setter
     private Long sequence;
 
     @Column(name = "depth")
+    @Setter
     private Long depth;
 
     @Column(name = "child_count")
+    @Setter
     private Long childCount;
 
 //    자식 클래스
     @ManyToOne(targetEntity = Comment.class, fetch = FetchType.LAZY)
 //    첫번째 댓글은 부모를 가져야되는건 아니니까 nullable true로
     @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = true)
+    @Setter
     private Comment parent;
 
 /*

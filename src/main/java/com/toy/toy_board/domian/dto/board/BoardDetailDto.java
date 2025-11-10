@@ -18,7 +18,7 @@ public class BoardDetailDto {
     private String boardWriteId;
     private String boardWriterNickName;
     private String imgUrl;
-    private int likeCount;
+    private Long likesCount;
     private boolean isLiked;
     private boolean isOwned;
 
