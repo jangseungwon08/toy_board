@@ -1,24 +1,19 @@
 package com.toy.toy_board.domian.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.util.List;
 
 @Slf4j
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board")
 //1. JPA가 DB 조회를 할 때 기본 생성자를 생성 한 뒤에 DB에서 가져온 데이터를 각 필드에 채워넣음
 //2. 지연 로딩을 사용할 때 JPA는 실제 엔티티 객체 대신 껍데기 프록시 객체를 생성한다. 이 프록시 객체는 원본 엔티티를 상속 받아서 만들어짐
 @Getter
-@Setter
 @SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
 public class Board extends BaseTimeEntity {
     @Id
@@ -63,4 +58,17 @@ public class Board extends BaseTimeEntity {
         this.isDeleted = isDeleted;
         this.imgUrl = imgUrl;
     }
+
+    public void updateBoardTitle(String boardTitle){
+        this.boardTitle = boardTitle;
+    }
+    public void updateBoardBody(String boardBody){
+        this.boardBody = boardBody;
+    }
+
+    public void increaseViewCount(){
+        this.viewCount += 1;
+    }
+
+    public void changeWriterNickName(String boardWriterNickName) {this.boardWriterNickName = boardWriterNickName;}
 }

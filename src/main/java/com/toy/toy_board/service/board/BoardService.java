@@ -9,6 +9,7 @@ import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,10 +54,10 @@ public class BoardService {
             throw new BadParameter("작성자만 수정할 수 있습니다.");
         }
         if (editBoardDto.getBoardTitle() != null) {
-            board.setBoardTitle(editBoardDto.getBoardTitle());
+            board.updateBoardTitle(editBoardDto.getBoardTitle());
         }
         if (editBoardDto.getBoardBody() != null) {
-            board.setBoardBody(editBoardDto.getBoardBody());
+            board.updateBoardBody(editBoardDto.getBoardBody());
         }
         return board.getId();
     }

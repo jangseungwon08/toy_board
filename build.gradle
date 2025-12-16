@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.toy'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 description = 'toy_project board service'
 
 java {
@@ -20,6 +20,10 @@ configurations {
 	}
 }
 
+ext {
+	set('springCloudVersion', "2025.0.0")
+}
+
 repositories {
 	mavenCentral()
 }
@@ -28,6 +32,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation("software.amazon.awssdk:s3:2.20.100")
+	implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.kafka:spring-kafka'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -35,6 +44,15 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+tasks.named('compileTestJava'){
+	enabled = false
 }

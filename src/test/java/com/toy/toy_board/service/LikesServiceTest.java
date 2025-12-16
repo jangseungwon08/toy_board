@@ -52,6 +52,17 @@ public class LikesServiceTest {
         Long res2 = likesService.likes(boardId,userId);
 //        then
         assertThat(res2).isEqualTo(1L);
-
+    }
+    @Test
+    @DisplayName("좋아요를 누르고 취소할 수 있다.")
+    public void likeDisLikeTest(){
+        //        given
+        Long boardId = 1L;
+        String userId = "dong1234";
+//        when
+        Long likeRes  = likesService.likes(boardId,userId);
+        Long disLikeRes = likesService.likes(boardId, userId);
+//        then
+        System.out.println(disLikeRes);
     }
 }

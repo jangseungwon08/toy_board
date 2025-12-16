@@ -5,12 +5,10 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLDelete;
 
-import java.util.List;
-
 @Slf4j
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "comment")
 @Entity
@@ -47,8 +45,8 @@ public class Comment extends BaseTimeEntity{
     @Setter
     private Long groupId;
 
-    @Column(name = "sequence")
     @Setter
+    @Column(name = "sequence")
     private Long sequence;
 
     @Column(name = "depth")
@@ -59,7 +57,6 @@ public class Comment extends BaseTimeEntity{
     @Setter
     private Long childCount;
 
-//    자식 클래스
     @ManyToOne(targetEntity = Comment.class, fetch = FetchType.LAZY)
 //    첫번째 댓글은 부모를 가져야되는건 아니니까 nullable true로
     @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = true)
@@ -67,7 +64,6 @@ public class Comment extends BaseTimeEntity{
     private Comment parent;
 
 /*
- 부모 클래스
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> children;
 */

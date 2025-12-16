@@ -3,7 +3,9 @@ package com.toy.toy_board.domian.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 //이 클래스 또는 자식 클래스의 변경사항을 감지(listen)하는 의미이다.
 //@CreatedDate와 @LastModifiedDate가 붙은 필드에 시간을 자동으로 수정하거나 채워줌
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseTimeEntity {
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
