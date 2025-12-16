@@ -117,6 +117,6 @@ public class CommentService {
 //            해당 댓글만 false 변경
             commentRepository.delete(comment);
         }
-        return 1L;
+        return comment.getId();
     }
 }

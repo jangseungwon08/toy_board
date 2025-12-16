@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/boards", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/boards/comments", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping(value = "/comments")
+    @PostMapping
     public ApiResponseDto<Long> createComments(@RequestBody CreateCommentDto createCommentDto){
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
         String userNickName = GatewayRequestHeaderUtils.getUserNickNameOrThrowException();
@@ -33,13 +33,13 @@ public class CommentController {
         return ApiResponseDto.createOk(commentService.updateComment(updateCommentDto,commentId, userId));
     }
 
-    @DeleteMapping(value = "{commentId}")
-    public ApiResponseDto<String> deleteComments(@PathVariable Long commentId){
+    @DeleteMapping(value = "/{commentId}")
+    public ApiResponseDto<Long> deleteComments(@PathVariable Long commentId){
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
-        return ApiResponseDto.defaultOk();
+        return ApiResponseDto.deleteOk(commentService.deleteComment(commentId, userId));
     }
 
-    @PostMapping(value = "comments/reply")
+    @PostMapping(value = "/reply")
     public ApiResponseDto<Long> createReply(@RequestBody CreateReplyDto createReplyDto){
         String userId = GatewayRequestHeaderUtils.getUserIdOrThrowException();
         String userNickName = GatewayRequestHeaderUtils.getUserNickNameOrThrowException();

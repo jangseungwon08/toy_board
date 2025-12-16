@@ -2,16 +2,14 @@ package com.toy.toy_board.domian.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.SQLDelete;
 
 @Slf4j
-@NoArgsConstructor
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "likes")
 @Entity

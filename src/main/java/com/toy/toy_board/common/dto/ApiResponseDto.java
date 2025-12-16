@@ -28,6 +28,9 @@ public class ApiResponseDto<T> {
     public static <T> ApiResponseDto<T> readOk(T data) {
         return new ApiResponseDto<>("OK", "데이터 조회 요청이 성공하였습니다.", data);
     }
+    public static <T> ApiResponseDto<T> deleteOk(T data){
+        return new ApiResponseDto<>("OK", "데이터 삭제를 완료하였습니다.", data);
+    }
 
     public static ApiResponseDto<String> defaultOk() {
         return ApiResponseDto.createOk(null);

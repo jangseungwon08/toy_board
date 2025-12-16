@@ -9,11 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query(value = "SELECT * FROM board WHERE is_deleted= false",
             countQuery = "SELECT count(*) FROM board WHERE is_deleted = false",
             nativeQuery = true)
     Page<Board> findAllOverViewBoard(Pageable pageable);
+
+    @Query(value = "SELECT * FROM board WHERE board_writer_id = :board_writer_id", nativeQuery = true)
+    List<Board> findAllByBoardWriterId(@Param(value = "board_writer_id")String boardWriterId);
 
 }

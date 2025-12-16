@@ -65,17 +65,13 @@ public class BoardInfoService {
         }
         if (oldCookie != null) {
             if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
-                Long viewCount = board.getViewCount();
-                viewCount++;
-                board.setViewCount(viewCount);
+                board.increaseViewCount();
                 oldCookie.setValue(oldCookie.getValue() + "_[" + boardId + "]");
                 oldCookie.setPath("/");
                 response.addCookie(oldCookie);
             }
         } else {
-            Long viewCount = board.getViewCount();
-            viewCount++;
-            board.setViewCount(viewCount);
+            board.increaseViewCount();
             Cookie newCookie = new Cookie("postView", "[" + boardId + "]");
             newCookie.setPath("/");
             response.addCookie(newCookie);
