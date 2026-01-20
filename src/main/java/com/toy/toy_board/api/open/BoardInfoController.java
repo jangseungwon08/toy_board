@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +24,9 @@ public class BoardInfoController {
     private final BoardInfoService boardInfoService;
 
     @GetMapping
-    public ApiResponseDto<Page<BoardOverViewDto>> boardOverView(@RequestParam(defaultValue = "1") int page,
-                                                            @RequestParam(defaultValue = "10") int size){
-        return ApiResponseDto.readOk(boardInfoService.boardOverView(page, size));
+    public ApiResponseDto<Page<BoardOverViewDto>> boardOverView(
+            @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+        return ApiResponseDto.readOk(boardInfoService.boardOverView(pageable));
     }
 
     @GetMapping(value = "/{boardId}")

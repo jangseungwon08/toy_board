@@ -79,8 +79,7 @@ public class BoardInfoService {
     }
 
     @Transactional(readOnly = true)
-    public Page<BoardOverViewDto> boardOverView(int page, int size){
-        Pageable pageable = PageRequest.of(page-1,size, Sort.by(Sort.Direction.DESC, "created_at"));
+    public Page<BoardOverViewDto> boardOverView(Pageable pageable){
         Page<Board> boards = boardRepository.findAllOverViewBoard(pageable);
         return boards.map(
                 BoardOverViewDto::fromEntity
