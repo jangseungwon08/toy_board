@@ -25,7 +25,7 @@ public class BoardInfoController {
 
     @GetMapping
     public ApiResponseDto<Page<BoardOverViewDto>> boardOverView(
-            @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+            @PageableDefault(page = 0, size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable){
         return ApiResponseDto.readOk(boardInfoService.boardOverView(pageable));
     }
 
