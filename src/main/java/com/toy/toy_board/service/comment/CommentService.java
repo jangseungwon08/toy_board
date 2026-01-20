@@ -9,6 +9,8 @@ import com.toy.toy_board.domian.entity.Board;
 import com.toy.toy_board.domian.entity.Comment;
 import com.toy.toy_board.domian.repository.BoardRepository;
 import com.toy.toy_board.domian.repository.CommentRepository;
+import com.toy.toy_board.kafka.KafkaMessageProducer;
+import com.toy.toy_board.kafka.producer.notification.event.CommentPosted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
+    private final KafkaMessageProducer kafkaMessageProducer;
 
     @Transactional
     public Long createComment(CreateCommentDto createCommentDto, String userId, String userNickName) {
@@ -39,6 +42,8 @@ public class CommentService {
          */
         try {
             commentRepository.save(comment);
+            CommentPosted event = CommentPosted.fromEntityComment(board, comment);
+            kafkaMessageProducer.send(CommentPosted.TOPIC, event);
         } catch (Exception e) {
             log.info("댓글 저장 실패!!", e);
             throw new RuntimeException("댓글 저장중 치명적 버그 발생");
@@ -75,6 +80,8 @@ public class CommentService {
         comment.setChildCount(comment.getChildCount() + 1);
         try {
             commentRepository.save(reply);
+            CommentPosted event = CommentPosted.fromEntityCommentReply(board,reply, comment);
+            kafkaMessageProducer.send(CommentPosted.TOPIC, event);
         } catch (Exception e) {
             throw new RuntimeException("대댓글 생성 중 치명적 버그 발생!");
         }
