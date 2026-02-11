@@ -84,4 +84,5 @@ public class BoardServiceTest {
         System.out.println(res);
         assertThat(res).isEqualTo(boardId);
     }
+
 }
