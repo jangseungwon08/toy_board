@@ -1,0 +1,24 @@
+name: Local Deploy Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    # 우분투 서버가 아닌, 방금 등록한 내 로컬 PC에서 실행하겠다는 의미!
+    runs-on: self-hosted
+
+    steps:
+      - name: 로컬에서 Docker Compose 실행
+        run: |
+          # 1. 로컬 PC의 프로젝트 폴더로 강제 이동 (본인 PC의 실제 경로로 수정하세요)
+          cd C:\toy\toy_be\toy_board
+          
+          # 2. 최신 코드 가져오기
+          git pull origin main
+          
+          # 3. 도커 컴포즈 재실행
+          docker-compose down
+          docker-compose up -d --build
